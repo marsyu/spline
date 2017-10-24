@@ -39,8 +39,7 @@ object MareksJob {
       $"Country Name" as "country_name",
       $"Country Code" as "country_code",
       $"Series Name" as "metric",
-      $"2011 [YR2011]" as "2011",
-      $"2010 [YR2010]" as "2010"
+      $"2011 [YR2011]" as "amount"
     )
 
     val gdpPerCapital = cleaned.filter($"metric" === "GDP per capita (current US$)")
@@ -49,10 +48,10 @@ object MareksJob {
 
     val result = beerConsumtion
       .join(gdpPerCapital, $"country_code" === $"Code", "inner")
-      .select($"country_name", $"Year2011" as "beer_consumption", $"2011" as "gdp_per_capital")
+      .select($"country_name", $"Year2011" as "beer_consumption", $"amount" as "gdp_per_capital")
       .sort($"beer_consumption" desc)
 
 
-    result.write.mode("overwrite").parquet("data/results/gdpPerCapitalUSD")
+    result.write.mode("overwrite").parquet("data/results/beerAndgdpPerCapital")
   }
 }

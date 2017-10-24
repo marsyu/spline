@@ -38,7 +38,7 @@ object JansBeerJob {
     val population = spark.read.option("header", "true").csv("data/input/population.csv")
 
     def calculateConsumptionPerCapital(year : String) =
-      (col(year) * 100) / col("y" + year) as "Year" + year
+      (col("Consumption" + year) * 100) / col("Population" + year) as "Year" + year
 
 
     val result = beerConsumption
